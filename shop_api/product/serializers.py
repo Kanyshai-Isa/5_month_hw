@@ -2,15 +2,15 @@ from rest_framework import serializers
 from .models import Product, Category, Review
 
 class ProductReviewSerializer(serializers.ModelSerializer):
-        average_rating = serializers.SerializerMethodField()  #для средней оценки
+        rating = serializers.SerializerMethodField()  #для средней оценки
 
         class Meta:
                 model = Product
-                fields = ['title', 'reviews', 'average_rating']
+                fields = ['title', 'reviews', 'rating']
                 depth = 1
 
-        def get_average_rating (self, obj):
-                return obj.average_rating()
+        def get_rating (self, obj):
+                return obj.rating()
 
 class ReviewDetailSerializer(serializers.ModelSerializer):
         class Meta:
@@ -31,9 +31,14 @@ class CetegoryDetailSerializer(serializers.ModelSerializer):
 
 
 class CategoryListSerializer(serializers.ModelSerializer):
+        product_count = serializers.SerializerMethodField()
+
         class Meta:
                 model = Category
                 fields = '__all__'
+
+        def get_product_count(self, category):
+                return category.product_count()
 
 
 

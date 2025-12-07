@@ -7,6 +7,9 @@ class Category(models.Model):
 
     def __str__(self):
         return self.name
+    
+    def product_count(self):
+        return self.product_set.count()
 
 
 class Product(models.Model):
@@ -21,7 +24,7 @@ class Product(models.Model):
     def review_list(self):
         return [review.text for review in self.reviews.all()] 
     
-    def average_rating(self):
+    def rating(self):
         return self.reviews.aggregate(avg=Avg('stars'))['avg']
 
 
