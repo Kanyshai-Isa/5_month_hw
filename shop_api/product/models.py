@@ -1,4 +1,5 @@
 from django.db import models
+from django.db.models import Avg
 
 
 class Category(models.Model):
@@ -17,10 +18,25 @@ class Product(models.Model):
     def __str__(self):
         return self.title
     
+    def review_list(self):
+        return [review.text for review in self.reviews.all()] 
+    
+    def average_rating(self):
+        return self.reviews.aggregate(avg=Avg('stars'))['avg']
 
+
+    
+STARS = (
+    (i, '*' * i) for i in range(1,6)
+)
 class Review(models.Model):
     text = models.TextField(null=True, blank=True)
-    product = models.ForeignKey(Product, on_delete=models.CASCADE, null=True)
-    
+    stars = models.IntegerField(choices=STARS, default=0, null=True, blank=True)
+    product = models.ForeignKey(Product,
+                                on_delete=models.CASCADE,
+                                related_name='reviews',
+                                null=True,
+                                blank=True)
     def __str__(self):
-        return self.text
+        return (self.text)
+    

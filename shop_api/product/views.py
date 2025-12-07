@@ -6,8 +6,22 @@ from .models import Product, Category, Review
 from .serializers import (
     ProductListSerializer, ProductDetailSerializer,
     CategoryListSerializer, CetegoryDetailSerializer,
-    ReviewListSerializer, ReviewDetailSerializer
+    ReviewListSerializer, ReviewDetailSerializer,
+    ProductReviewSerializer
     )
+
+@api_view(['GET'])
+def product_review_api_view(request):
+    products = Product.objects.all()
+
+
+    list_ = ProductReviewSerializer(instance=products, many=True).data
+
+    return Response(
+        data=(list_),    
+        status=status.HTTP_200_OK,
+    ) 
+
 
 @api_view(['GET'])
 def review_detail_api_view(request, id):
