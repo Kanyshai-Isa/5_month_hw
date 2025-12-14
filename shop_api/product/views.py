@@ -52,7 +52,8 @@ def review_detail_api_view(request, id):
 
 
 @api_view(['GET', 'POST'])
-def review_list_api_view(request):
+def review_list_create_api_view(request):
+    print(request.user)
     if request.method == 'GET':
         reviews = Review.objects.all()
         list_ = ReviewListSerializer(reviews, many=True).data
@@ -103,7 +104,7 @@ def category_detail_api_view(request, id):
 
 
 @api_view(['GET', 'POST'])
-def category_list_api_view(request):
+def category_list_create_api_view(request):
     if request.method == 'GET':
         categories = Category.objects.all()
         list_ = CategoryListSerializer(instance=categories,many=True).data
@@ -157,7 +158,7 @@ def product_detail_api_view(request,id):
 
 
 @api_view(http_method_names=["GET", 'POST'])
-def product_list_api_view(request):
+def product_list_create_api_view(request):
     if request.method == 'GET':
         # step 1. Collect films from DF (QuerySet)
         products = Product.objects.all()
