@@ -2,6 +2,7 @@ from rest_framework import serializers
 from .models import Product, Category, Review
 from rest_framework.exceptions import ValidationError
 
+
 class ProductReviewSerializer(serializers.ModelSerializer):
         rating = serializers.SerializerMethodField()  #для средней оценки
 
@@ -49,6 +50,13 @@ class ProductDetailSerializer(serializers.ModelSerializer):
                 fields = '__all__'
 
 
+#дублирование
+class ProductCreatetSerializer(serializers.ModelSerializer):
+        reviews = serializers.SerializerMethodField()  #чтобы вывести наименования а не просто id
+
+        class Meta:
+                model = Product
+                fields = ['id', 'title', 'price', 'description', 'reviews', 'category_id']
 
 
 class ProductListSerializer(serializers.ModelSerializer):

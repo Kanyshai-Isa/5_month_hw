@@ -4,6 +4,11 @@ from rest_framework.exceptions import ValidationError
 from .models import ConfirmCode
 
 
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = '__all__'
+
 class UserAuthSerializer(serializers.Serializer):
     username = serializers.CharField(max_length=150)
     password = serializers.CharField()
